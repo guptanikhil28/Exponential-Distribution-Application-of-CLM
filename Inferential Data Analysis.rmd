@@ -1,0 +1,69 @@
+---
+title: "Inferential Data Analysis"
+author: "Nikhil Gupta"
+date: "7/8/2017"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Part 2: Basic Inferential Data Analysis Instructions
+
+```{r, echo=FALSE}
+q=datasets::ToothGrowth
+cat("Summary of the Toothgrowth data:", "\n")
+summary(q)
+boxplot(len~supp*dose, data=ToothGrowth, 
+  col=(c("red","yellow")),
+  main="Tooth Growth", xlab="Suppliment and Dose", ylab="Tooth Growth")
+
+ToothGrowth1=subset(ToothGrowth, ToothGrowth$dose == 0.5)
+ToothGrowth2=subset(ToothGrowth, ToothGrowth$dose == 1.0)
+ToothGrowth3=subset(ToothGrowth, ToothGrowth$dose == 2.0)
+
+ToothGrowth4=subset(ToothGrowth, ToothGrowth$supp == "OJ")
+ToothGrowth5=subset(ToothGrowth, ToothGrowth$supp == "VC")
+
+cat("Unpaired t test for hypothesis whether mean length of supp factor VC is equal to OJ for dosage 0.5","\n")
+t.test(ToothGrowth1[ToothGrowth1$supp=="OJ",]$len,ToothGrowth1[ToothGrowth1$supp=="VC",]$len)
+cat("\n")
+cat("Unpaired t test for hypothesis whether mean length of supp factor VC is equal to OJ for dosage 1.0","\n")
+t.test(ToothGrowth2[ToothGrowth2$supp=="OJ",]$len,ToothGrowth2[ToothGrowth2$supp=="VC",]$len)
+cat("\n")
+cat("Unpaired t test for hypothesis whether mean length of supp factor VC is equal to OJ for dosage 2.0","\n")
+t.test(ToothGrowth3[ToothGrowth3$supp=="OJ",]$len,ToothGrowth3[ToothGrowth3$supp=="VC",]$len)
+cat("\n")
+cat("Unpaired t test for hypothesis whether mean length of dosage 0.5 is equal to 1 for supp OJ","\n")
+t.test(ToothGrowth4[ToothGrowth4$dose==0.5,]$len,ToothGrowth4[ToothGrowth4$dose==1.00,]$len)
+cat("\n")
+cat("Unpaired t test for hypothesis whether mean length of dosage 0.5 is equal to 2 for supp OJ","\n")
+t.test(ToothGrowth4[ToothGrowth4$dose==0.5,]$len,ToothGrowth4[ToothGrowth4$dose==2.00,]$len)
+cat("\n")
+cat("Unpaired t test for hypothesis whether mean length of dosage 1 is equal to 2 for supp OJ","\n")
+t.test(ToothGrowth4[ToothGrowth4$dose==1,]$len,ToothGrowth4[ToothGrowth4$dose==2.00,]$len)
+cat("\n")
+cat("Unpaired t test for hypothesis whether mean length of dosage 0.5 is equal to 1 for supp VC","\n")
+t.test(ToothGrowth5[ToothGrowth5$dose==0.5,]$len,ToothGrowth5[ToothGrowth5$dose==1.00,]$len)
+cat("\n")
+cat("Unpaired t test for hypothesis whether mean length of dosage 0.5 is equal to 2 for supp VC","\n")
+t.test(ToothGrowth5[ToothGrowth5$dose==0.5,]$len,ToothGrowth5[ToothGrowth5$dose==2.00,]$len)
+cat("\n")
+cat("Unpaired t test for hypothesis whether mean length of dosage 1 is equal to 2 for supp VC","\n")
+t.test(ToothGrowth5[ToothGrowth5$dose==1,]$len,ToothGrowth5[ToothGrowth5$dose==2.00,]$len)
+cat("\n")
+```
+
+##Assumptions
+- Populations groups are independent i.e 60 unique pigs are incorporated in the study
+- Variances between populations are different
+- Random population has been used
+- Population was comprised of similar guinea pigs
+
+## Conclusions
+- If all the preceding assumptions are true, we may infer that there is a significant difference between tooth length and dose levels across both delivery methods. 
+- A higher dose level consistently led to longer teeth. 
+- It also appears that orange juice is a better delivery method with a larger impact on tooth length for a given dose of Vitamin C, but above a maximum dose level there is no further improvement.

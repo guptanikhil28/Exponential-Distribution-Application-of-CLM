@@ -1,0 +1,72 @@
+---
+title: "Exponential Distribution & Application of Central Limit Theorem"
+author: "Nikhil Gupta"
+date: "June 25, 2017"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+
+This report will investigate the exponential distribution in R and compare it with the Central Limit Theorem. Exponential distribution with lambda=0.2 will be used for the purpose with simulation count of 1000.To validate the central limit theorem, average of 40 exponentials wil be taken.
+
+
+##Exponential random variable simulation 
+
+Firstly, random variable with exponential distribution has been simulated (based on theoretical & sample central measures). This has been used to calculate the required confidence intervals.
+```{r echo=TRUE}
+lambda =0.2
+par(mfrow=c(1,2)) 
+exp1= rexp(1000,lambda)
+hist(exp1, col = "blue", ylab = "Frequency")
+theoretical_mean = 1/lambda 
+sample_mean = mean(exp1) 
+sample_sd=sd(exp1)
+theoretical_sd=1/lambda
+abline(v=sample_mean, col="green", lwd=6, lty=2);
+abline(v=theoretical_mean, col="red", lwd=3);
+legend("topright", c("Sample_mean", "Theoretical_mean"), fill=c("green", "red"),cex=0.7)
+
+cat("Sample variance of exponential distribution:", sample_sd^2,"\n")
+cat("Sample two-sided 95% confidence interval:",c((sample_mean-1.96*sample_sd),(sample_mean+1.96*sample_sd)),"\n")
+cat("Population variance of exponential distribution:", theoretical_sd^2,"\n")
+cat ("Population two-sided 95% confidence interval",c((theoretical_mean-1.96*theoretical_sd),(theoretical_mean+1.96*theoretical_sd)),"\n")
+cat("\n")
+summary(exp1)
+cat("\n")
+```
+
+##Exponential random variables mean simulation 
+
+Secondly, mean of 40 random variables with exponential distribution has been simulated (based on theoretical & sample central measures). This should tend towards normal random variable as per central limit theorem. This has been validated & required confidence intervals have been calculated.
+
+```{r}
+
+exp_avg =vector(mode="numeric", length=1000)
+ for (i in 1:1000)
+ { exp_avg[i]= mean(rexp(40,lambda))
+ }
+ 
+ hist(exp_avg, col = "blue", ylab = "Frequency")
+ theoretical_mean1 = 1/lambda 
+ sample_mean1 = mean(exp_avg) 
+ sample_sd1=sd(exp_avg)
+ theoretical_sd1=1/(lambda* (40^0.5))
+ abline(v=sample_mean1, col="green", lwd=6, lty=2);
+ abline(v=theoretical_mean1, col="red", lwd=3);
+ legend("topright", c("Sample_mean", "Theoretical_mean"), fill=c("green", "red"),cex=0.6)
+ 
+cat("Sample variance of averaged exponential distribution:", sample_sd1^2,"\n")
+cat("Sample two-sided 95% confidence interval:",c((sample_mean1-1.96*sample_sd1),(sample_mean1+1.96*sample_sd1)),"\n")
+cat("Population variance of averaged exponential distribution:", theoretical_sd1^2,"\n")
+cat ("Population two-sided 95% confidence interval",c((theoretical_mean1-1.96*theoretical_sd1),(theoretical_mean1+1.96*theoretical_sd1)),"\n")
+cat("\n")
+summary(exp_avg) 
+ 
+```
